@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Product = require('../models/Schemas');
 
 
@@ -26,8 +28,9 @@ module.exports.getProduct = function(req,res){
 }
 
 module.exports.updateProduct = function(req,res){
-  const number = req.query.number;
-  Product.findByIdAndUpdate(req.params.id, {quantity: quantity+number} ,function(err,doc) {
+  const number = parseInt(req.query.number);
+  console.log("params:", req.params.id);
+  Product.findByIdAndUpdate(req.params.id, {$inc:{quantity:number}},{new:true} ,function(err,doc) {
     if (err) {
       console.error(err);
       return res.redirect("/");
